@@ -1,24 +1,35 @@
 
 import logging
 import sys
+import time
 
 def main():
     programTitle()
-    if(checkSetup == True):
-       if(menu() == 1):
-           createMessage()
-       elif(menu() == 2):
-           createDBToken()
-       elif(menu() == 3):
-           decodeMessage()
-       elif(menu() == 4):
-           sys.exit(0)
+    if(checkSetup() == True):
+        option = menu()
+        if(option == 1):
+            createMessage()
+        elif(option == 2):
+            createDBToken()
+        elif(option == 3):
+            decodeMessage()
+        elif(option == 4):
+            print("01100011011000010111001001110000011001010010000001100100011010010110010101101101")
+            sys.exit(0)
+        else:
+            print("Ummmm you need to pick a valid option")
+            time.sleep(2)
+            menu()
 
-
-
-
-def checkSetup(se):
+def createMessage():
     return True
+def createDBToken():
+    return True
+def decodeMessage():
+    return True
+def checkSetup():
+    return True
+
 
 def programTitle():
     print("++++++++++++++++++++++++++++++++++++++++")
@@ -27,6 +38,16 @@ def programTitle():
     print("+     github.com/thecrimsoncoder       +")
     print("++++++++++++++++++++++++++++++++++++++++")
 
+    return True
+
 def menu():
+    print("++++++++++++++++++++++++++++++++++++++++")
+    print("+  1. Create a new message             +")
+    print("+  2. Create a DB token                +")
+    print("+  3. Decode message                   +")
+    print("+  4. Quit because you are a quitter!  +")
+    print("++++++++++++++++++++++++++++++++++++++++")
+
+    return int(input("Watcha wanna do?: "))
 
 main()
