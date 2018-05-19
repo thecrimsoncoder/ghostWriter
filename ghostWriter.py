@@ -1,12 +1,23 @@
 
+import logging
+import sys
 
 def main():
     programTitle()
-    menu()
+    if(checkSetup == True):
+       if(menu() == 1):
+           createMessage()
+       elif(menu() == 2):
+           createDBToken()
+       elif(menu() == 3):
+           decodeMessage()
+       elif(menu() == 4):
+           sys.exit(0)
 
 
 
-def checkSetup():
+
+def checkSetup(se):
     return True
 
 def programTitle():
