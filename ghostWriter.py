@@ -1,7 +1,7 @@
-
-import logging
 import sys
 import time
+import base64
+import _rotor
 
 def main():
     programTitle()
@@ -10,10 +10,8 @@ def main():
         if(option == 1):
             createMessage()
         elif(option == 2):
-            createDBToken()
+            decodeMessage(str(input("Copy and Paste the encoded message here")))
         elif(option == 3):
-            decodeMessage()
-        elif(option == 4):
             print("01100011011000010111001001110000011001010010000001100100011010010110010101101101")
             sys.exit(0)
         else:
@@ -23,10 +21,8 @@ def main():
 
 def createMessage():
     return True
-def createDBToken():
-    return True
-def decodeMessage():
-    return True
+def decodeMessage(encodedMessage):
+    print(base64.b64decode(encodedMessage))
 def checkSetup():
     return True
 
@@ -43,11 +39,10 @@ def programTitle():
 def menu():
     print("++++++++++++++++++++++++++++++++++++++++")
     print("+  1. Create a new message             +")
-    print("+  2. Create a DB token                +")
-    print("+  3. Decode message                   +")
-    print("+  4. Quit because you are a quitter!  +")
+    print("+  2. Decode message                   +")
+    print("+  3. Quit because you are a quitter!  +")
     print("++++++++++++++++++++++++++++++++++++++++")
 
-    return int(input("Watcha wanna do?: "))
+    return int(input("Just tell me what you want, what you really really want!: "))
 
 main()
