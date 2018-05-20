@@ -1,7 +1,7 @@
 import random
 class _rotor:
     def __init__(self,offset):
-        self.offset = random.randint(1,24)
+        self.offset = offset
         self.dict = {
                         "A" : "A",
                         "B" : "B",
@@ -31,8 +31,12 @@ class _rotor:
                         "Z" : "Z"
         }
 
-    def configureRotor(self):
+    def configureRotor(self,offset):
         keys = self.dict.keys()
         values = self.dict.values()
+
+    def randomizeRotor(self):
+        self.offset = random.randint(1,24)
+        configureRotor(self,self.offset)
 
 
