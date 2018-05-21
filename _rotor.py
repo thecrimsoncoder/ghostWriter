@@ -32,7 +32,6 @@ class _rotor:
                     }
 
     def configureRotor(self,offset):
-        print(offset)
         keys = list(self.mapping.keys())
         values = list(self.mapping.values())
 
