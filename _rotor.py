@@ -1,7 +1,7 @@
 import random
 class _rotor:
-    def __init__(self,offset):
-        self.offset = offset
+    def __init__(self):
+        self.offset = 0
         self.dict = {
                         "A" : "A",
                         "B" : "B",

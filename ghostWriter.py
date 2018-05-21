@@ -18,9 +18,15 @@ def main():
         menu()
 
 def createMessage():
+    ROTORS = []
     HOST, PORT = import_settings()
     request = "http://" + HOST + ":" + PORT + "/OTR"
     rotor_setting = requests.get(request)
+    rotor_setting = rotor_setting.json
+    rotor_setting = rotor_setting.split("")
+    for x in range(0,3):
+        #build rotors
+
     message = input("Message: ")
 
     # TESTING ONLY
