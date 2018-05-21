@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-
+from flask import Flask, request
+from flask_restful import Resource, Api
 import json
 import random
-import Api as Api
-from flask import Flask, request
 
 APPLICATION = Flask(__name__)
 API = Api(APPLICATION)
@@ -23,9 +22,7 @@ class Auth_OTR(Resource):
 def import_settings():
     with open("ghostWriterServerSettings.json") as json_config:
         server_config = json.load(json_config)
-
     PORT = server_config["port"]
-
     return PORT
 
 def create_one_time_rotor_setting():
@@ -40,6 +37,7 @@ if __name__ == "__main__":
     APPLICATION.run(port=PORT)
 
 API.add_resource(OTR,'/OTR')
-API.add_resource(Auth_OTR,'/Auth')
+API.add_resource(OTR,'/OTR/<rotor_setting>/<message_hash>')
+API.add_resource(Auth_OTR,'/Auth/<message_hash>')
 
 
