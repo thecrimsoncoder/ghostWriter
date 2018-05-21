@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sys, time, base64, requests, json
-import _rotor
+from _rotor import _rotor
 
 def main():
     programTitle()
@@ -25,7 +25,8 @@ def createMessage():
     rotor_setting = rotor_setting.json
 
     for x in range(0,3):
-        #build rotors
+        rotor =  _rotor()
+        ROTORS.append(rotor.configureRotor(rotor_setting[x]))
 
     message = input("Message: ")
 

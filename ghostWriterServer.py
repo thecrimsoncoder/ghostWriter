@@ -9,8 +9,10 @@ api = Api(app)
 
 class OTR(Resource):
     def get(self):
-        OTR = create_one_time_rotor_setting()
-        return OTR
+        strRet = "Hello from OTR Get"
+        return strRet
+        #OTR = create_one_time_rotor_setting()
+        #return OTR
 
     def put(self,rotor_setting,message_hash):
         return rotor_setting,message_hash
@@ -33,11 +35,14 @@ def create_one_time_rotor_setting():
     return OTR
 
 if __name__ == "__main__":
+
+    #print(create_one_time_rotor_setting())
     PORT = import_settings()
     app.run(port=PORT, debug=True)
 
-api.add_resource(OTR, '/OTR')
-api.add_resource(OTR, '/OTR/<rotor_setting>/<message_hash>')
-api.add_resource(Auth_OTR, '/Auth/<message_hash>')
+
+api.add_resource(OTR, '/OTR/api/v1.0/otr')
+#api.add_resource(OTR, '/OTR/<rotor_setting>/<message_hash>')
+#api.add_resource(Auth_OTR, '/Auth/<message_hash>')
 
 
