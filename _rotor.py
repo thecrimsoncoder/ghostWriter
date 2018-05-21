@@ -29,14 +29,16 @@ class _rotor:
                         "X" : "X",
                         "Y" : "Y",
                         "Z" : "Z"
-        }
+                    }
 
-def configureRotor(_rotor,offset):
-    keys = _rotor.dict.keys()
-    values = _rotor.dict.values()
+    def configureRotor(self,offset):
+        print(offset)
+        keys = self.dict.keys()
+        values = self.dict.values()
 
-    for x in range(0,offset):
-        values.append(values[0])
-    rotor = dict(zip(keys,values))
-    return rotor
+        for x in range(0,offset):
+            values.append(values[0])
+        rotor = dict(zip(keys,values))
+        self.dict = rotor
+        return self.dict
 

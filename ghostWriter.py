@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sys, time, base64, requests, json
-import _rotor
+from _rotor import _rotor
 
 def main():
     programTitle()
@@ -18,18 +18,23 @@ def main():
         menu()
 
 def createMessage():
-    ROTORS = []
+    ROTORS = list()
     HOST, PORT = import_settings()
-    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR"
+    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr"
     rotor_setting = requests.get(request)
-    rotor_setting = rotor_setting.json
+    rotor_setting_json = rotor_setting.json()
 
-    #for x in range(0,3):
+    for x in range(0,3):
+        new_rotor = _rotor()
+        new_rotor.configureRotor(rotor_setting_json[str(x)])
+        ROTORS.append(new_rotor)
 
-    message = input("Message: ")
+    print(ROTORS)
 
-    # TESTING ONLY, really because i only defined the dictionary to have upper case letters
-    message.upper()
+    # message = input("Message: ")
+    #
+    # # TESTING ONLY, really because i only defined the dictionary to have upper case letters
+    # message.upper()
 
 def decodeMessage(encodedMessage):
     print(base64.b64decode(encodedMessage))
