@@ -31,12 +31,12 @@ class _rotor:
                         "Z" : "Z"
         }
 
-    def configureRotor(self,offset):
-        keys = self.dict.keys()
-        values = self.dict.values()
+def configureRotor(self,offset):
+    keys = self.dict.keys()
+    values = self.dict.values()
 
-    def randomizeRotor(self):
-        self.offset = random.randint(1,24)
-        configureRotor(self,self.offset)
-
+    for x in range(0,offset-1):
+        values.append(values[0])
+    rotor = dict(zip(keys,values))
+    return rotor
 

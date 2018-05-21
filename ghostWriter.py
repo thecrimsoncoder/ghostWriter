@@ -1,31 +1,41 @@
 #!/usr/bin/env python3
-import sys
-import time
-import base64
+import sys, time, base64, requests, json
 import _rotor
 
 def main():
     programTitle()
-    if(checkSetup() == True):
-        option = menu()
-        if(option == 1):
-            createMessage()
-        elif(option == 2):
-            decodeMessage(str(input("Copy and Paste the encoded message here")))
-        elif(option == 3):
-            print("01100011011000010111001001110000011001010010000001100100011010010110010101101101")
-            sys.exit(0)
-        else:
-            print("Ummmm you need to pick a valid option")
-            time.sleep(2)
-            menu()
+    option = menu()
+    if(option == 1):
+        createMessage()
+    elif(option == 2):
+        decodeMessage(str(input("Copy and Paste the encoded message here")))
+    elif(option == 3):
+        print("01100011011000010111001001110000011001010010000001100100011010010110010101101101")
+        sys.exit(0)
+    else:
+        print("Ummmm you need to pick a valid option")
+        time.sleep(2)
+        menu()
 
 def createMessage():
-    return True
+    HOST, PORT = import_settings()
+    request = "http://" + HOST + ":" + PORT + "/OTR"
+    rotor_setting = requests.get(request)
+    message = input("Message: ")
+
 def decodeMessage(encodedMessage):
     print(base64.b64decode(encodedMessage))
-def checkSetup():
-    return True
+
+def import_settings():
+    try:
+        with open("ghostWriterSettings.json") as json_config:
+            client_config = json.load(json_config)
+        PORT = client_config["port"]
+        HOST = client_config["host"]
+        return HOST,PORT
+    except:
+        FileNotFoundError()
+        return False
 
 
 def programTitle():
@@ -34,8 +44,6 @@ def programTitle():
     print("+     Created By: TheCrimsonCoder      +")
     print("+     github.com/thecrimsoncoder       +")
     print("++++++++++++++++++++++++++++++++++++++++")
-
-    return True
 
 def menu():
     print("++++++++++++++++++++++++++++++++++++++++")

@@ -4,8 +4,8 @@ from flask_restful import Resource, Api
 import json
 import random
 
-APPLICATION = Flask(__name__)
-API = Api(APPLICATION)
+app = Flask(__name__)
+api = Api(app)
 
 class OTR(Resource):
     def get(self):
@@ -34,10 +34,10 @@ def create_one_time_rotor_setting():
 
 if __name__ == "__main__":
     PORT = import_settings()
-    APPLICATION.run(port=PORT)
+    app.run(port=PORT, debug=True)
 
-API.add_resource(OTR,'/OTR')
-API.add_resource(OTR,'/OTR/<rotor_setting>/<message_hash>')
-API.add_resource(Auth_OTR,'/Auth/<message_hash>')
+api.add_resource(OTR, '/OTR')
+api.add_resource(OTR, '/OTR/<rotor_setting>/<message_hash>')
+api.add_resource(Auth_OTR, '/Auth/<message_hash>')
 
 
