@@ -1,6 +1,4 @@
 {
   "host" : "localhost",
-  "port" : 4105,
-  "buffer_size" : 1024,
-  "one_time_rotor_setting_timeout" : 2
+  "port" : 4105
 }

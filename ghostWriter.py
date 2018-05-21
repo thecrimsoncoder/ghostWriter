@@ -23,6 +23,9 @@ def createMessage():
     rotor_setting = requests.get(request)
     message = input("Message: ")
 
+    # TESTING ONLY
+    message.upper()
+
 def decodeMessage(encodedMessage):
     print(base64.b64decode(encodedMessage))
 
