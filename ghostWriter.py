@@ -27,9 +27,9 @@ def createMessage():
     for x in range(0,3):
         new_rotor = _rotor()
         new_rotor.configureRotor(rotor_setting_json[str(x)])
+        print(new_rotor.mapping)
         ROTORS.append(new_rotor)
 
-    print(ROTORS)
 def stepRotor(_rotor):
     return _rotor.configureRotor(1)
 
