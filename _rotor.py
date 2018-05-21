@@ -35,7 +35,7 @@ def configureRotor(self,offset):
     keys = self.dict.keys()
     values = self.dict.values()
 
-    for x in range(0,offset-1):
+    for x in range(0,offset):
         values.append(values[0])
     rotor = dict(zip(keys,values))
     return rotor

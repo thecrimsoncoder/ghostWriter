@@ -23,13 +23,13 @@ def createMessage():
     request = "http://" + HOST + ":" + PORT + "/OTR"
     rotor_setting = requests.get(request)
     rotor_setting = rotor_setting.json
-    rotor_setting = rotor_setting.split("")
+
     for x in range(0,3):
         #build rotors
 
     message = input("Message: ")
 
-    # TESTING ONLY
+    # TESTING ONLY, really because i only defined the dictionary to have upper case letters
     message.upper()
 
 def decodeMessage(encodedMessage):
