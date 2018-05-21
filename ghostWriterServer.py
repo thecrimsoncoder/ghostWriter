@@ -11,7 +11,7 @@ def get_otr():
     OTR = create_one_time_rotor_setting()
     return OTR
 
-@app.route('/OTR/api/v1.0/otr/<string:rotor_setting>/<string:message_hash>',methods=['GET'])
+@app.route('/OTR/api/v1.0/otr/<string:rotor_setting>/<string:message_hash>',methods=['POST'])
 def put_otr(rotor_setting,message_hash):
     return rotor_setting,message_hash
 
