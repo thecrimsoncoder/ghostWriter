@@ -30,6 +30,8 @@ def createMessage():
         ROTORS.append(new_rotor)
 
     print(ROTORS)
+def stepRotor(_rotor):
+    return _rotor.configureRotor(1)
 
     # message = input("Message: ")
     #

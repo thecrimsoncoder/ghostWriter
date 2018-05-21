@@ -2,7 +2,7 @@ import random
 class _rotor:
     def __init__(self):
         self.offset = 0
-        self.dict = {
+        self.mapping = {
                         "A" : "A",
                         "B" : "B",
                         "C" : "C",
@@ -33,12 +33,11 @@ class _rotor:
 
     def configureRotor(self,offset):
         print(offset)
-        keys = self.dict.keys()
-        values = self.dict.values()
+        keys = list(self.mapping.keys())
+        values = list(self.mapping.values())
 
         for x in range(0,offset):
-            values.append(values[0])
-        rotor = dict(zip(keys,values))
-        self.dict = rotor
-        return self.dict
+            values.append(values.pop(0))
+
+        self.mapping = dict(zip(keys,values))
 
