@@ -31,7 +31,7 @@ def auth_otr(message_hash):
         with open("ghostWriterDatabase.json") as json_database:
             database = json.load(json_database)
         rotor_setting = parseRotorSetting(list(database.keys())[list(database.values()).index(str(message_hash))])
-
+        return json.dumps(rotor_setting)
     except:
         FileNotFoundError()
         response = {"Status": "Database Error"}
@@ -46,11 +46,14 @@ def import_settings():
     except:
         FileNotFoundError()
         return False
+
 def parseRotorSetting(rotor_setting):
     keys = list()
     values = rotor_setting.split("|")
-    print("Rotor Setting: " + str(values))
-    return True
+    for x in range(0,len(values)):
+        keys.append(x)
+    rotor_setting_json = dict(zip(keys,values))
+    return rotor_setting_json
 
 def create_one_time_rotor_setting():
     rotor_key = []
