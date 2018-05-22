@@ -1,4 +1,5 @@
 {
   "host" : "localhost",
-  "port" : 4105
+  "port" : 4105,
+  "rotor_count" : 3
 }

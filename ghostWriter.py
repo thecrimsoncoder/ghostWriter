@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-import sys, time, base64, requests, json
+import sys, time, base64, requests, json, hashlib
 from _rotor import _rotor
 
+
 def main():
-    programTitle()
+
     option = menu()
     if(option == 1):
-        createMessage()
+        contact_server(encodeMessage(createMessage()))
     elif(option == 2):
         decodeMessage(str(input("Copy and Paste the encoded message here")))
     elif(option == 3):
@@ -15,31 +16,46 @@ def main():
     else:
         print("Ummmm you need to pick a valid option")
         time.sleep(2)
-        menu()
+        main()
 
 def createMessage():
+    message = input("Message: ")
+    return message
+
+def encodeMessage(cleartext):
+
     ROTORS = list()
-    HOST, PORT = import_settings()
     request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr"
     rotor_setting = requests.get(request)
     rotor_setting_json = rotor_setting.json()
+    cipher_text = ""
 
-    for x in range(0,3):
+    for x in range(0, ROTOR_COUNT):
         new_rotor = _rotor()
         new_rotor.configureRotor(rotor_setting_json[str(x)])
-        print(new_rotor.mapping)
         ROTORS.append(new_rotor)
 
-def stepRotor(_rotor):
-    return _rotor.configureRotor(1)
+    cleartext_array = list(cleartext)
 
-    # message = input("Message: ")
-    #
-    # # TESTING ONLY, really because i only defined the dictionary to have upper case letters
-    # message.upper()
+    for char in cleartext_array:
+        cipher_text = cipher_text + ROTORS[2].mapping[ROTORS[1].mapping[ROTORS[0].mapping[char]]]
+        ROTORS[0].configureRotor(1)
+
+    print("\n==============================================================================================\n")
+    print("Cipher Text (COPY THIS AND SEND TO RECIPIENT): " + cipher_text)
+    print("\n==============================================================================================\n")
+    cipher_text_hash = hashlib.md5(str(cipher_text).encode('utf-8')).hexdigest()
+    print("Cipher Hash: " + cipher_text_hash)
+    print("\n==============================================================================================\n")
+
+    return rotor_setting_json,cipher_text_hash
+
+def contact_server(rotor_setting_json,cipher_text_hash):
+    return True
+
 
 def decodeMessage(encodedMessage):
-    print(base64.b64decode(encodedMessage))
+    return True
 
 def import_settings():
     try:
@@ -47,7 +63,8 @@ def import_settings():
             client_config = json.load(json_config)
         PORT = client_config["port"]
         HOST = client_config["host"]
-        return HOST,PORT
+        ROTOR_COUNT = client_config["rotor_count"]
+        return HOST,PORT,ROTOR_COUNT
     except:
         FileNotFoundError()
         return False
@@ -56,7 +73,7 @@ def import_settings():
 def programTitle():
     print("++++++++++++++++++++++++++++++++++++++++")
     print("+     g h o s t W r i t e r . p y      +")
-    print("+     Created By: TheCrimsonCoder      +")
+    print("+     Created By: Sean McElhare        +")
     print("+     github.com/thecrimsoncoder       +")
     print("++++++++++++++++++++++++++++++++++++++++")
 
@@ -68,5 +85,6 @@ def menu():
     print("++++++++++++++++++++++++++++++++++++++++")
 
     return int(input("Just tell me what you want, what you really really want!: "))
-
+HOST, PORT, ROTOR_COUNT = import_settings()
+programTitle()
 main()
