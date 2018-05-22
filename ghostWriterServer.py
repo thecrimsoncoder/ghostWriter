@@ -51,7 +51,7 @@ def parseRotorSetting(rotor_setting):
     keys = list()
     values = rotor_setting.split("|")
     for x in range(0,len(values)):
-        keys.append(x)
+        keys.append(int(x))
     rotor_setting_json = dict(zip(keys,values))
     return rotor_setting_json
 

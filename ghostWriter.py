@@ -71,15 +71,18 @@ def contact_server(arg_list):
 
 
 def decodeMessage(encodedMessage):
-
+    ROTORS = list()
     request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + hashlib.md5(str(encodedMessage).encode('utf-8')).hexdigest()
     rotor_setting = requests.get(request)
     rotor_setting_json = rotor_setting.json()
 
-    # for x in range(0, ROTOR_COUNT):
-    #     new_rotor = _rotor()
-    #     new_rotor.configureRotor(rotor_setting_json[str(x)])
-    #     ROTORS.append(new_rotor)
+    for x in range(0, ROTOR_COUNT):
+        new_rotor = _rotor()
+        new_rotor.configureRotor(int(rotor_setting_json[str(x)]))
+        ROTORS.append(new_rotor)
+
+    for x in ROTORS:
+        print(x.mapping)
     return True
 
 def import_settings():
