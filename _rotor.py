@@ -1,4 +1,3 @@
-import random
 class _rotor:
     def __init__(self):
         self.offset = 0

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys, time, base64, requests, json, hashlib
+import sys, time, requests, json, hashlib
 from _rotor import _rotor
 
 
@@ -9,9 +9,9 @@ def main():
     if(option == 1):
         contact_server(encodeMessage(createMessage()))
     elif(option == 2):
-        decodeMessage(str(input("Copy and Paste the encoded message here")))
+        decodeMessage(createMessage())
     elif(option == 3):
-        print("01100011011000010111001001110000011001010010000001100100011010010110010101101101")
+        print("Q2FycGUgRGllbSEgLVRoZUNyaW1zb25Db2Rlcg==")
         sys.exit(0)
     else:
         print("Ummmm you need to pick a valid option")
@@ -71,6 +71,15 @@ def contact_server(arg_list):
 
 
 def decodeMessage(encodedMessage):
+
+    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + hashlib.md5(str(encodedMessage).encode('utf-8')).hexdigest()
+    rotor_setting = requests.get(request)
+    rotor_setting_json = rotor_setting.json()
+
+    # for x in range(0, ROTOR_COUNT):
+    #     new_rotor = _rotor()
+    #     new_rotor.configureRotor(rotor_setting_json[str(x)])
+    #     ROTORS.append(new_rotor)
     return True
 
 def import_settings():
