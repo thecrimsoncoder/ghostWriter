@@ -13,7 +13,7 @@ def get_otr():
 
 @app.route('/OTR/api/v1.0/otr/<string:rotor_setting>/<string:message_hash>',methods=['POST'])
 def put_otr(rotor_setting,message_hash):
-    return rotor_setting,message_hash
+    print(rotor_setting + " " + message_hash)
 
 @app.route('/OTR/api/v1.0/otr/<string:message_hash>', methods=['GET'])
 def auth_otr(message_hash):
