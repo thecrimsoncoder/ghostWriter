@@ -17,7 +17,7 @@ def put_otr(rotor_setting,message_hash):
             database = json.load(json_database)
         database.update(key_value)
         with open("ghostWriterDatabase.json", "w") as json_database:
-            json.dump(database,json_database)
+            json.dump(database,json_database, indent=4, separators=(',', ': '))
         response = {"Status": "Message Successfully Generated"}
         return json.dumps(response)
     except:

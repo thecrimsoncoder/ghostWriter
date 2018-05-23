@@ -41,11 +41,11 @@ def encodeMessage(cleartext):
     for char in cleartext_array:
         cipher_text = cipher_text + ROTORS[2].mapping[ROTORS[1].mapping[ROTORS[0].mapping[char]]]
         ROTORS[0].configureRotor(1)
+    cipher_text_hash = hashlib.md5(str(cipher_text).encode('utf-8')).hexdigest()
 
     print("\n==============================================================================================\n")
     print("Cipher Text (COPY THIS AND SEND TO RECIPIENT): " + cipher_text)
     print("\n==============================================================================================\n")
-    cipher_text_hash = hashlib.md5(str(cipher_text).encode('utf-8')).hexdigest()
     print("Cipher Hash: " + cipher_text_hash)
     print("\n==============================================================================================\n")
 
@@ -71,6 +71,7 @@ def contact_server(arg_list):
 
 
 def decodeMessage(encodedMessage):
+    clearText = ""
     ROTORS = list()
     request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + hashlib.md5(str(encodedMessage).encode('utf-8')).hexdigest()
     rotor_setting = requests.get(request)
@@ -81,9 +82,11 @@ def decodeMessage(encodedMessage):
         new_rotor.configureRotor(int(rotor_setting_json[str(x)]))
         ROTORS.append(new_rotor)
 
-    for x in ROTORS:
-        print(x.mapping)
-    return True
+    encodedText = list(encodedMessage)
+
+    for char in encodedText:
+        clearText = clearText + ROTORS[0].mapping[]
+
 
 def import_settings():
     try:
