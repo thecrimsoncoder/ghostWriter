@@ -22,7 +22,7 @@ def put_otr(rotor_setting,message_hash):
         return json.dumps(response)
     except:
         FileNotFoundError()
-        response = {"Status": "Database Error"}
+        response = {"Status": "Invalid Token"}
         return json.dumps(response)
 
 @app.route('/OTR/api/v1.0/otr/<string:message_hash>', methods=['GET'])
