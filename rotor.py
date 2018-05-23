@@ -1,4 +1,4 @@
-class _rotor:
+class rotor:
     def __init__(self):
         self.offset = 0
         self.mapping = {
@@ -97,7 +97,7 @@ class _rotor:
                         " ": " "
                     }
 
-    def configureRotor(self,offset):
+    def configureEncoderRotor(self, offset):
         keys = list(self.mapping.keys())
         values = list(self.mapping.values())
 
@@ -105,3 +105,12 @@ class _rotor:
             values.append(values.pop(0))
 
         self.mapping = dict(zip(keys,values))
+
+    def configureDecoderRotor(self, offset):
+        keys = list(self.mapping.keys())
+        values = list(self.mapping.values())
+
+        for x in range(0,offset):
+            keys.append(keys.pop(0))
+
+        self.mapping = dict(zip(values,keys))

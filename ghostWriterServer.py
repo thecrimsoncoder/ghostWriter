@@ -61,9 +61,9 @@ def create_one_time_rotor_setting():
     for rotor_num in range(0,3):
         rotor_key.append(rotor_num)
         rotor_value.append(random.randint(1,9999))
-    rotor = dict(zip(rotor_key,rotor_value))
-    rotor = json.dumps(rotor)
-    return rotor
+    rotor_config = dict(zip(rotor_key,rotor_value))
+    rotor_config = json.dumps(rotor_config)
+    return rotor_config
 
 if __name__ == "__main__":
     PORT = import_settings()

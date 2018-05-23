@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 import sys, time, requests, json, hashlib
-from _rotor import _rotor
+from rotor import rotor
 
 
 def main():
 
     option = menu()
-    if(option == 1):
-        contact_server(encodeMessage(createMessage()))
-    elif(option == 2):
-        decodeMessage(createMessage())
-    elif(option == 3):
+    if(int(option) == 1):
+        contact_server(encodeMessage(promptInput()))
+        main()
+    elif(int(option) == 2):
+        decodeMessage(promptInput())
+        main()
+    elif(int(option) == 3):
         print("Q2FycGUgRGllbSEgLVRoZUNyaW1zb25Db2Rlcg==")
         sys.exit(0)
     else:
@@ -18,7 +20,7 @@ def main():
         time.sleep(2)
         main()
 
-def createMessage():
+def promptInput():
     message = input("Message: ")
     return message
 
@@ -29,22 +31,34 @@ def encodeMessage(cleartext):
     rotor_setting = requests.get(request)
     rotor_setting_json = rotor_setting.json()
     cipher_text = ""
+    rotor0Itererator = 0
+    rotor1Itererator = 0
     return_list = list()
 
     for x in range(0, ROTOR_COUNT):
-        new_rotor = _rotor()
-        new_rotor.configureRotor(rotor_setting_json[str(x)])
+        new_rotor = rotor()
+        new_rotor.configureEncoderRotor(rotor_setting_json[str(x)])
         ROTORS.append(new_rotor)
 
     cleartext_array = list(cleartext)
+    print(len(ROTORS[0].mapping))
 
     for char in cleartext_array:
         cipher_text = cipher_text + ROTORS[2].mapping[ROTORS[1].mapping[ROTORS[0].mapping[char]]]
-        ROTORS[0].configureRotor(1)
+        ROTORS[0].configureEncoderRotor(1)
+        rotor0Itererator += 1
+        if(rotor0Itererator == len(ROTORS[0].mapping)):
+            ROTORS[1].configureEncoderRotor(1)
+            rotor0Itererator = 0
+            rotor1Itererator += 1
+        if(rotor1Itererator == len(ROTORS[1].mapping)):
+            ROTORS[2].configureEncoderRotor(1)
+            rotor1Itererator = 0
+
     cipher_text_hash = hashlib.md5(str(cipher_text).encode('utf-8')).hexdigest()
 
     print("\n==============================================================================================\n")
-    print("Cipher Text (COPY THIS AND SEND TO RECIPIENT): " + cipher_text)
+    print("Cipher Text (COPY THIS AND SEND TO RECIPIENT): \n" + cipher_text)
     print("\n==============================================================================================\n")
     print("Cipher Hash: " + cipher_text_hash)
     print("\n==============================================================================================\n")
@@ -69,7 +83,7 @@ def contact_server(arg_list):
     request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + rotor_setting_string + "/" + cipher_text_hash
     requests.post(request)
 
-
+#No Workie :(
 def decodeMessage(encodedMessage):
     clearText = ""
     ROTORS = list()
@@ -78,15 +92,19 @@ def decodeMessage(encodedMessage):
     rotor_setting_json = rotor_setting.json()
 
     for x in range(0, ROTOR_COUNT):
-        new_rotor = _rotor()
-        new_rotor.configureRotor(int(rotor_setting_json[str(x)]))
+        new_rotor = rotor()
+        new_rotor.configureDecoderRotor(int(rotor_setting_json[str(x)]))
         ROTORS.append(new_rotor)
 
     encodedText = list(encodedMessage)
 
     for char in encodedText:
-        clearText = clearText + ROTORS[0].mapping[]
+        clearText = clearText + ROTORS[0].mapping[ROTORS[1].mapping[ROTORS[2].mapping[char]]]
+        ROTORS[0].configureDecoderRotor(1)
 
+    print("\n==============================================================================================\n")
+    print("Decoded Message: " + clearText)
+    print("\n==============================================================================================\n")
 
 def import_settings():
     try:
