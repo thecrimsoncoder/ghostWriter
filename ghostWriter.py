@@ -99,9 +99,8 @@ def decodeMessage(encodedMessage):
     encodedText = list(encodedMessage)
 
     for char in encodedText:
-        clearText = clearText + ROTORS[0].mapping[ROTORS[1].mapping[ROTORS[2].mapping[str(char)]]]
+        clearText = clearText + str(ROTORS[0].mapping[ROTORS[1].mapping[ROTORS[2].mapping[str(char)]]])
         ROTORS[0].rotorStepBackward()
-        print(clearText)
         rotor0Itererator += 1
         if(rotor0Itererator == len(ROTORS[0].mapping)):
             ROTORS[1].rotorStepBackward()
