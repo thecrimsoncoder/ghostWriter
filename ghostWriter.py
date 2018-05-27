@@ -41,18 +41,17 @@ def encodeMessage(cleartext):
         ROTORS.append(new_rotor)
 
     cleartext_array = list(cleartext)
-    print(len(ROTORS[0].mapping))
 
     for char in cleartext_array:
         cipher_text = cipher_text + ROTORS[2].mapping[ROTORS[1].mapping[ROTORS[0].mapping[char]]]
-        ROTORS[0].configureEncoderRotor(1)
+        ROTORS[0].rotorStepForward()
         rotor0Itererator += 1
         if(rotor0Itererator == len(ROTORS[0].mapping)):
-            ROTORS[1].configureEncoderRotor(1)
+            ROTORS[1].rotorStepForward()
             rotor0Itererator = 0
             rotor1Itererator += 1
         if(rotor1Itererator == len(ROTORS[1].mapping)):
-            ROTORS[2].configureEncoderRotor(1)
+            ROTORS[2].rotorStepForward()
             rotor1Itererator = 0
 
     cipher_text_hash = hashlib.md5(str(cipher_text).encode('utf-8')).hexdigest()
@@ -83,9 +82,10 @@ def contact_server(arg_list):
     request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + rotor_setting_string + "/" + cipher_text_hash
     requests.post(request)
 
-#No Workie :(
 def decodeMessage(encodedMessage):
     clearText = ""
+    rotor0Itererator = 0
+    rotor1Itererator = 0
     ROTORS = list()
     request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + hashlib.md5(str(encodedMessage).encode('utf-8')).hexdigest()
     rotor_setting = requests.get(request)
@@ -99,8 +99,17 @@ def decodeMessage(encodedMessage):
     encodedText = list(encodedMessage)
 
     for char in encodedText:
-        clearText = clearText + ROTORS[0].mapping[ROTORS[1].mapping[ROTORS[2].mapping[char]]]
-        ROTORS[0].configureDecoderRotor(1)
+        clearText = clearText + str(ROTORS[0].mapping[str(ROTORS[1].mapping[str(ROTORS[2].mapping[char])])])
+        ROTORS[0].rotorStepBackward()
+        rotor0Itererator += 1
+        if(rotor0Itererator == len(ROTORS[0].mapping)):
+            ROTORS[1].rotorStepBackward()
+            rotor0Itererator = 0
+            rotor1Itererator += 1
+        if(rotor1Itererator == len(ROTORS[1].mapping)):
+            ROTORS[2].rotorStepBackward()
+            rotor1Itererator = 0
+
 
     print("\n==============================================================================================\n")
     print("Decoded Message: " + clearText)

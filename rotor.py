@@ -106,11 +106,30 @@ class rotor:
 
         self.mapping = dict(zip(keys,values))
 
-    def configureDecoderRotor(self, offset):
+    def configureDecoderRotor(self,offset):
         keys = list(self.mapping.keys())
         values = list(self.mapping.values())
 
         for x in range(0,offset):
-            keys.append(keys.pop(0))
+            values.append(values.pop(0))
 
         self.mapping = dict(zip(values,keys))
+
+    def rotorStepForward(self):
+        keys = list(self.mapping.keys())
+        values = list(self.mapping.values())
+
+        for x in range(0,1):
+            values.append(values.pop(0))
+
+        self.mapping = dict(zip(keys,values))
+
+    def rotorStepBackward(self):
+        keys = list(self.mapping.keys())
+        values = list(self.mapping.values())
+
+        for x in range(0,1):
+            values.insert(0,len(values)-1)
+
+        self.mapping = dict(zip(keys,values))
+
