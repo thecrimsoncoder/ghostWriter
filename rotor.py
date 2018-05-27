@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 class rotor:
     def __init__(self):
         self.offset = 0

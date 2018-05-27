@@ -99,8 +99,9 @@ def decodeMessage(encodedMessage):
     encodedText = list(encodedMessage)
 
     for char in encodedText:
-        clearText = clearText + str(ROTORS[0].mapping[str(ROTORS[1].mapping[str(ROTORS[2].mapping[char])])])
+        clearText = clearText + ROTORS[0].mapping[ROTORS[1].mapping[ROTORS[2].mapping[str(char)]]]
         ROTORS[0].rotorStepBackward()
+        print(clearText)
         rotor0Itererator += 1
         if(rotor0Itererator == len(ROTORS[0].mapping)):
             ROTORS[1].rotorStepBackward()
@@ -109,7 +110,6 @@ def decodeMessage(encodedMessage):
         if(rotor1Itererator == len(ROTORS[1].mapping)):
             ROTORS[2].rotorStepBackward()
             rotor1Itererator = 0
-
 
     print("\n==============================================================================================\n")
     print("Decoded Message: " + clearText)
@@ -147,3 +147,5 @@ def menu():
 HOST, PORT, ROTOR_COUNT = import_settings()
 programTitle()
 main()
+
+#SSd2ZSBtb3ZlZCBvbiwgaGF2ZSB5b3U/
