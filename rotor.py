@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+from collections import deque
+
+
 class rotor:
     def __init__(self):
         self.offset = 0
@@ -97,38 +100,34 @@ class rotor:
                     }
 
     def configureEncoderRotor(self, offset):
-        keys = list(self.mapping.keys())
-        values = list(self.mapping.values())
+        keys = deque(self.mapping.keys())
+        values = deque(self.mapping.values())
 
-        for x in range(0,offset):
-            values.append(values.pop(0))
+        values.rotate(offset)
 
         self.mapping = dict(zip(keys,values))
 
     def configureDecoderRotor(self,offset):
-        keys = list(self.mapping.keys())
-        values = list(self.mapping.values())
+        keys = deque(self.mapping.keys())
+        values = deque(self.mapping.values())
 
-        for x in range(0,offset):
-            values.append(values.pop(0))
+        values.rotate(offset)
 
         self.mapping = dict(zip(values,keys))
 
     def rotorStepForward(self):
-        keys = list(self.mapping.keys())
-        values = list(self.mapping.values())
+        keys = deque(self.mapping.keys())
+        values = deque(self.mapping.values())
 
-        for x in range(0,1):
-            values.append(values.pop(0))
+        values.rotate(1)
 
         self.mapping = dict(zip(keys,values))
 
     def rotorStepBackward(self):
-        keys = list(self.mapping.keys())
-        values = list(self.mapping.values())
+        keys = deque(self.mapping.keys())
+        values = deque(self.mapping.values())
 
-        for x in range(0,1):
-            values.insert(0,len(values)-1)
+        values.rotate(-1)
 
         self.mapping = dict(zip(keys,values))
 

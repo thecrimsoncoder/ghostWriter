@@ -1,0 +1,5 @@
+Thank you to the following people for your kind words and or suggestions/recomendations to this project:
+https://www.reddit.com/r/learnpython/comments/8mmgc7/so_my_boss_told_me_to_learn_about_restful_apis_so/
+
+u/alkasm
+u/fuzzysaurus
