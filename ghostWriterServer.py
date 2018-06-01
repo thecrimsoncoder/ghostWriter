@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from flask import Flask
 from threading import Thread
-import json, random, sys, time
+import json, random, sys, time, hashlib
 
 app = Flask(__name__)
 
@@ -64,8 +64,20 @@ def auth_api_key(api_key):
         return json.dumps(response)
 
 def create_api_key():
-    # create api key, and add to ghostWriterAPIDatabase.json
-    print("apikey")
+
+    api_key =  hashlib.md5(time.time()).encode('utf-8').hexdigest()
+    key_value = {api_key : True}
+    try:
+        with open("ghostWriterAPIDatabase.json") as json_database:
+            database = json.load(json_database)
+        database.update(key_value)
+        with open("ghostWriterAPIDatabase.json", "w") as json_database:
+            json.dump(database,json_database, indent=4, separators=(',', ': '))
+        return True
+    except:
+        FileNotFoundError()
+        response = {"Status": "API Database Error"}
+        return json.dumps(response)
 
 def import_settings():
     try:
@@ -96,7 +108,7 @@ def create_one_time_rotor_setting():
     return rotor_config
 def flask_app():
     PORT = import_settings()
-    app.run(port=PORT,debug=False,threaded=True)
+    app.run(port=PORT,debug=False)
 
 def server_title():
     print("++++++++++++++++++++++++++++++++++++++++++++++++++++")
@@ -121,6 +133,7 @@ def server_menu():
         create_api_key()
         server_menu()
     elif int(option) == 3:
+        print("RmFyZXdlbGwgVHJhdmVsZXIgLVRoZUNyaW1zb25Db2Rlcg==")
         sys.exit(0)
     else:
         print("Ummmm you need to pick a valid option")
@@ -131,3 +144,5 @@ if __name__ == "__main__":
     server_title()
     server_menu = Thread(target=server_menu())
     server_menu.start()
+
+#Li4uLnlvdSByZWFsbHkgaHVydCBtZSBiYWQsIHlvdXIgYWN0aW9ucyBhcmUgdW5mb3JnaXZhYmxlLiBZb3UgYXJlIG5vIGxvbmdlciBhIGxvdmVyIG9mIG1pbmUgc28gc3RvcCBhc2tpbmcgdG8gYmUgZnJpZW5kcy4=
