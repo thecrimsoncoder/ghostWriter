@@ -65,7 +65,7 @@ def auth_api_key(api_key):
 
 def create_api_key():
 
-    api_key =  hashlib.md5(time.time()).encode('utf-8').hexdigest()
+    api_key =  hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
     key_value = {api_key : True}
     try:
         with open("ghostWriterAPIDatabase.json") as json_database:
@@ -106,6 +106,7 @@ def create_one_time_rotor_setting():
     rotor_config = dict(zip(rotor_key,rotor_value))
     rotor_config = json.dumps(rotor_config)
     return rotor_config
+
 def flask_app():
     PORT = import_settings()
     app.run(port=PORT,debug=False)
