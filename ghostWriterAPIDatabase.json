@@ -1,19 +1,17 @@
 {
-  "api_database" : [
-
-  ]
+  "api_database" : []
 }
 //{
 //  "api_database":[
 //    {
 //      "host": "host",
 //      "port": "port",
-//      "api_key": "api_key"
+//      "api_key": "api_key",
+//      "active": true
 //    },
 //    {
 //      "host": "host",
 //      "port": "port",
-//      "api_key": "api_key"
+//      "api_key": "api_key",
+//      "active": false
 //    }
-//  ]
-//}
