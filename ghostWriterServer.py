@@ -19,10 +19,10 @@ def put_otr(api_key,rotor_setting,message_hash):
     if auth_api_key(api_key) == True:
         key_value = {rotor_setting : message_hash}
         try:
-            with open("ghostWriterDatabase.json") as json_database:
+            with open("ghostWriterServerMessageDatabase.json") as json_database:
                 database = json.load(json_database)
             database.update(key_value)
-            with open("ghostWriterDatabase.json", "w") as json_database:
+            with open("ghostWriterServerMessageDatabase.json", "w") as json_database:
                 json.dump(database,json_database, indent=4, separators=(',', ': '))
             response = {"Status": "Message Successfully Generated"}
             return json.dumps(response)
@@ -38,7 +38,7 @@ def put_otr(api_key,rotor_setting,message_hash):
 def auth_otr(api_key,message_hash):
     if auth_api_key(api_key) == True:
         try:
-            with open("ghostWriterDatabase.json") as json_database:
+            with open("ghostWriterServerMessageDatabase.json") as json_database:
                 database = json.load(json_database)
             rotor_setting = parseRotorSetting(list(database.keys())[list(database.values()).index(str(message_hash))])
             return json.dumps(rotor_setting)
@@ -52,7 +52,7 @@ def auth_otr(api_key,message_hash):
 
 def auth_api_key(api_key):
     try:
-        with open("ghostWriterAPIDatabase.json") as json_api_database:
+        with open("ghostWriterServerAPIDatabase.json") as json_api_database:
             api_database = json.load(json_api_database)
             if api_database[api_key] == True:
                 return True
@@ -68,12 +68,12 @@ def create_api_key():
     api_key =  hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
     key_value = {api_key : True}
     try:
-        with open("ghostWriterAPIDatabase.json") as json_database:
+        with open("ghostWriterServerAPIDatabase.json") as json_database:
             database = json.load(json_database)
         database.update(key_value)
-        with open("ghostWriterAPIDatabase.json", "w") as json_database:
+        with open("ghostWriterServerAPIDatabase.json", "w") as json_database:
             json.dump(database,json_database, indent=4, separators=(',', ': '))
-        return True
+        return api_key
     except:
         FileNotFoundError()
         response = {"Status": "API Database Error"}
@@ -84,7 +84,8 @@ def import_settings():
         with open("ghostWriterServerSettings.json") as json_config:
             server_config = json.load(json_config)
         PORT = server_config["port"]
-        return PORT
+        HOST = server_config["host"]
+        return HOST, PORT
     except:
         FileNotFoundError()
         return False
@@ -108,7 +109,6 @@ def create_one_time_rotor_setting():
     return rotor_config
 
 def flask_app():
-    PORT = import_settings()
     app.run(port=PORT,debug=False)
 
 def server_title():
@@ -131,7 +131,10 @@ def server_menu():
         flask_server.start()
         server_menu()
     elif int(option) == 2:
-        create_api_key()
+        new_api_key = create_api_key()
+        new_api_json = {new_api_key : HOST}
+        print("API Key: " + str(new_api_json))
+        print("Copy and give this key to a trusted client, you can revoke access by setting " + new_api_key + " to 'False' later in ghostWriterServerAPIDatabase.json.")
         server_menu()
     elif int(option) == 3:
         print("RmFyZXdlbGwgVHJhdmVsZXIgLVRoZUNyaW1zb25Db2Rlcg==")
@@ -142,6 +145,7 @@ def server_menu():
         server_menu()
 
 if __name__ == "__main__":
+    HOST, PORT  = import_settings()
     server_title()
     server_menu = Thread(target=server_menu())
     server_menu.start()

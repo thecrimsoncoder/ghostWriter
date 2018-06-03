@@ -13,6 +13,8 @@ def main():
         decodeMessage(promptInput())
         main()
     elif(int(option) == 3):
+        importAPIKey()
+    elif(int(option) == 4):
         print("Q2FycGUgRGllbSEgLVRoZUNyaW1zb25Db2Rlcg==")
         sys.exit(0)
     else:
@@ -114,14 +116,15 @@ def decodeMessage(encodedMessage):
     print("Decoded Message: " + clearText)
     print("\n==============================================================================================\n")
 
+def importAPIKey():
+    apiKey = dict(input("Paste API Key Here"))
+
 def import_settings():
     try:
         with open("ghostWriterSettings.json") as json_config:
             client_config = json.load(json_config)
-        PORT = client_config["port"]
-        HOST = client_config["host"]
         ROTOR_COUNT = client_config["rotor_count"]
-        return HOST,PORT,ROTOR_COUNT
+        return ROTOR_COUNT
     except:
         FileNotFoundError()
         return False
@@ -138,12 +141,13 @@ def menu():
     print("++++++++++++++++++++++++++++++++++++++++")
     print("+  1. Create a new message             +")
     print("+  2. Decode message                   +")
-    print("+  3. Quit because you are a quitter!  +")
+    print("+  3. Import API Key                   +")
+    print("+  4. Quit because you are a quitter!  +")
     print("++++++++++++++++++++++++++++++++++++++++")
 
     return int(input("Just tell me what you want, what you really really want!: "))
 
-HOST, PORT, ROTOR_COUNT = import_settings()
+ROTOR_COUNT = import_settings()
 programTitle()
 main()
 
