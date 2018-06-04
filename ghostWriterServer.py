@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from flask import Flask
 from threading import Thread
 import json, random, sys, time, hashlib
@@ -65,17 +66,17 @@ def auth_api_key(api_key):
 
 def create_api_key():
 
-    api_key =  hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
+    api_key = hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
     key_value = {api_key : True}
     try:
         with open("ghostWriterServerAPIDatabase.json") as json_database:
-            database = json.load(json_database)
+            database = json.loads(json_database)
         database.update(key_value)
         with open("ghostWriterServerAPIDatabase.json", "w") as json_database:
             json.dump(database,json_database, indent=4, separators=(',', ': '))
         return api_key
     except:
-        FileNotFoundError()
+        print(FileNotFoundError())
         response = {"Status": "API Database Error"}
         return json.dumps(response)
 

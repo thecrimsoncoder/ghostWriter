@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sys, time, requests, json, hashlib
-from rotor import rotor
+from _rotor import rotor
 
 
 def main():
@@ -14,6 +14,7 @@ def main():
         main()
     elif(int(option) == 3):
         importAPIKey()
+        main()
     elif(int(option) == 4):
         print("Q2FycGUgRGllbSEgLVRoZUNyaW1zb25Db2Rlcg==")
         sys.exit(0)
