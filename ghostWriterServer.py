@@ -53,30 +53,31 @@ def auth_otr(api_key,message_hash):
 
 def auth_api_key(api_key):
     try:
-        with open("ghostWriterServerAPIDatabase.json") as json_api_database:
-            api_database = json.load(json_api_database)
-            if api_database[api_key] == True:
-                return True
-            else:
-                return False
-    except:
-        FileNotFoundError()
-        response = {"Status": "API Database Error"}
-        return json.dumps(response)
+        with open("ghostWriterServerAPIDatabase.json", "r") as json_api_database:
+            database = json.loads(json_api_database.read())
+            for database_api_key in database:
+                if database_api_key[api_key] == True:
+                    return True
+                else:
+                    return False
+    except Exception as e:
+        print(e)
+        return False
 
 def create_api_key():
 
-    api_key = hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
+    api_key = str(hashlib.md5(str(time.time()).encode('utf-8')).hexdigest())
     key_value = {api_key : True}
+
     try:
-        with open("ghostWriterServerAPIDatabase.json") as json_database:
-            database = json.loads(json_database)
-        database.update(key_value)
+        with open("ghostWriterServerAPIDatabase.json" ,"r") as json_database:
+            database = json.loads(json_database.read())
+            database["api_database"].append(key_value)
         with open("ghostWriterServerAPIDatabase.json", "w") as json_database:
-            json.dump(database,json_database, indent=4, separators=(',', ': '))
+            json.dump(database,json_database, indent=4, separators=(',', ' : '))
         return api_key
-    except:
-        print(FileNotFoundError())
+    except Exception as e:
+        print(e)
         response = {"Status": "API Database Error"}
         return json.dumps(response)
 
