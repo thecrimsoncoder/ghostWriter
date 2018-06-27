@@ -1,17 +1,24 @@
 {
-  "api_database" : []
+"api_database" : []
 }
-//{
-//  "api_database":[
-//    {
-//      "host": "host",
-//      "port": "port",
-//      "api_key": "api_key",
-//      "active": true
-//    },
-//    {
-//      "host": "host",
-//      "port": "port",
-//      "api_key": "api_key",
-//      "active": false
-//    }
+/*
+{
+  "api_database":[
+    {
+      "host" : [
+        {
+          "port": "port",
+          "api_key": "api_key",
+          "active": true
+        }
+    ]},
+    {
+      "host" : [
+        {
+          "port": "port",
+          "api_key": "api_key",
+          "active": true
+        }
+    ]}
+]}
+[api_database][host][port]||[api_key]||[active]*/

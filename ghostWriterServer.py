@@ -20,15 +20,15 @@ def put_otr(api_key,rotor_setting,message_hash):
     if auth_api_key(api_key) == True:
         key_value = {rotor_setting : message_hash}
         try:
-            with open("ghostWriterServerMessageDatabase.json") as json_database:
+            with open("ghostWriterServerMessageDatabase.json", "r") as json_database:
                 database = json.load(json_database)
             database.update(key_value)
             with open("ghostWriterServerMessageDatabase.json", "w") as json_database:
                 json.dump(database,json_database, indent=4, separators=(',', ': '))
             response = {"Status": "Message Successfully Generated"}
             return json.dumps(response)
-        except:
-            FileNotFoundError()
+        except Exception as e:
+            print(e)
             response = {"Status": "Invalid Token"}
             return json.dumps(response)
     else:
@@ -39,12 +39,12 @@ def put_otr(api_key,rotor_setting,message_hash):
 def auth_otr(api_key,message_hash):
     if auth_api_key(api_key) == True:
         try:
-            with open("ghostWriterServerMessageDatabase.json") as json_database:
+            with open("ghostWriterServerMessageDatabase.json", "r") as json_database:
                 database = json.load(json_database)
             rotor_setting = parseRotorSetting(list(database.keys())[list(database.values()).index(str(message_hash))])
             return json.dumps(rotor_setting)
-        except:
-            FileNotFoundError()
+        except Exception as e:
+            print(e)
             response = {"Status": "Database Error"}
             return json.dumps(response)
     else:
@@ -83,13 +83,13 @@ def create_api_key():
 
 def import_settings():
     try:
-        with open("ghostWriterServerSettings.json") as json_config:
+        with open("ghostWriterServerSettings.json", "r") as json_config:
             server_config = json.load(json_config)
         PORT = server_config["port"]
         HOST = server_config["host"]
         return HOST, PORT
-    except:
-        FileNotFoundError()
+    except Exception as e:
+        print(e)
         return False
 
 def parseRotorSetting(rotor_setting):

@@ -37,6 +37,7 @@ def encodeMessage(cleartext):
     rotor0Itererator = 0
     rotor1Itererator = 0
     return_list = list()
+    ROTOR_COUNT = 3
 
     for x in range(0, ROTOR_COUNT):
         new_rotor = rotor()
@@ -74,6 +75,7 @@ def contact_server(arg_list):
     rotor_setting = ""
     rotor_setting_json = arg_list[0]
     cipher_text_hash = arg_list[1]
+    ROTOR_COUNT = 3
 
     for x in range(0, ROTOR_COUNT):
         rotor_setting = rotor_setting + str(rotor_setting_json[str(x)]) + "|"
@@ -93,6 +95,7 @@ def decodeMessage(encodedMessage):
     request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + hashlib.md5(str(encodedMessage).encode('utf-8')).hexdigest()
     rotor_setting = requests.get(request)
     rotor_setting_json = rotor_setting.json()
+    ROTOR_COUNT = 3
 
     for x in range(0, ROTOR_COUNT):
         new_rotor = rotor()
@@ -118,18 +121,9 @@ def decodeMessage(encodedMessage):
     print("\n==============================================================================================\n")
 
 def importAPIKey():
-    apiKey = dict(input("Paste API Key Here"))
-
-def import_settings():
-    try:
-        with open("ghostWriterSettings.json") as json_config:
-            client_config = json.load(json_config)
-        ROTOR_COUNT = client_config["rotor_count"]
-        return ROTOR_COUNT
-    except:
-        FileNotFoundError()
-        return False
-
+    apiKey = dict(input("Paste API Key Here: "))
+    with open("ghostWriterAPIDatabase.json") as api_database:
+        api_json_database = json.loads(api_database)
 
 def programTitle():
     print("++++++++++++++++++++++++++++++++++++++++")
@@ -148,7 +142,6 @@ def menu():
 
     return int(input("Just tell me what you want, what you really really want!: "))
 
-ROTOR_COUNT = import_settings()
 programTitle()
 main()
 
