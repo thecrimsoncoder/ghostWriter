@@ -1,24 +1,25 @@
 {
-"api_database" : []
+    "api_database" : [
+        {
+            "localhost" : {
+                "port" : 4105,
+                "api_key" : "2f7f4f41f1f24e4406c3a65286830cbc",
+                "active" : false
+            }
+        },
+        {
+            "localhost" : {
+                "port" : 4105,
+                "api_key" : "c0f39c96eba87c22afa7b25377bf235b",
+                "active" : false
+            }
+        },
+        {
+            "localhost" : {
+                "port" : 4105,
+                "api_key" : "b0c1ce80521ba479da6690ab16015ecd",
+                "active" : false
+            }
+        }
+    ]
 }
-/*
-{
-  "api_database":[
-    {
-      "host" : [
-        {
-          "port": "port",
-          "api_key": "api_key",
-          "active": true
-        }
-    ]},
-    {
-      "host" : [
-        {
-          "port": "port",
-          "api_key": "api_key",
-          "active": true
-        }
-    ]}
-]}
-[api_database][host][port]||[api_key]||[active]*/

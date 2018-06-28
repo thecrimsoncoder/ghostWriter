@@ -121,9 +121,36 @@ def decodeMessage(encodedMessage):
     print("\n==============================================================================================\n")
 
 def importAPIKey():
-    apiKey = dict(input("Paste API Key Here: "))
-    with open("ghostWriterAPIDatabase.json") as api_database:
-        api_json_database = json.loads(api_database)
+    api_key_input = str(input("Paste API Key Here: "))
+    api_key_input = json.loads(api_key_input)
+
+    API_KEY = list(dict.keys(api_key_input))[0]
+
+    api_key_input_values = list(dict.values(api_key_input))
+    api_key_input_values = str(api_key_input_values[0]).split(":")
+
+    API_HOST = api_key_input_values[0]
+    API_PORT = api_key_input_values[1]
+    API_ACTIVE = False
+
+    import_key = {
+        str(API_HOST) : {
+            "port" : int(API_PORT),
+            "api_key" : str(API_KEY),
+            "active" : API_ACTIVE
+        }
+    }
+
+    try:
+        with open("ghostWriterAPIDatabase.json", "r") as api_database:
+             api_json_database = json.loads(api_database.read())
+             api_json_database["api_database"].append(import_key)
+        with open("ghostWriterAPIDatabase.json", "w") as api_database:
+            json.dump(api_json_database, api_database, indent=4, separators=(',', ' : '))
+            return True
+    except Exception as e:
+        print(e)
+        return False
 
 def programTitle():
     print("++++++++++++++++++++++++++++++++++++++++")
@@ -144,5 +171,3 @@ def menu():
 
 programTitle()
 main()
-
-#SSd2ZSBtb3ZlZCBvbiwgaGF2ZSB5b3U/

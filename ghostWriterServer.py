@@ -24,7 +24,7 @@ def put_otr(api_key,rotor_setting,message_hash):
                 database = json.load(json_database)
             database.update(key_value)
             with open("ghostWriterServerMessageDatabase.json", "w") as json_database:
-                json.dump(database,json_database, indent=4, separators=(',', ': '))
+                json.dump(database,json_database, indent=4, separators=(',', ' : '))
             response = {"Status": "Message Successfully Generated"}
             return json.dumps(response)
         except Exception as e:
@@ -134,7 +134,7 @@ def server_menu():
         server_menu()
     elif int(option) == 2:
         new_api_key = create_api_key()
-        new_api_json = {new_api_key : HOST}
+        new_api_json = json.dumps({new_api_key : str(HOST)+":"+str(PORT)})
         print("API Key: " + str(new_api_json))
         print("Copy and give this key to a trusted client, you can revoke access by setting " + new_api_key + " to 'False' later in ghostWriterServerAPIDatabase.json.")
         server_menu()
@@ -151,5 +151,3 @@ if __name__ == "__main__":
     server_title()
     server_menu = Thread(target=server_menu())
     server_menu.start()
-
-#Li4uLnlvdSByZWFsbHkgaHVydCBtZSBiYWQsIHlvdXIgYWN0aW9ucyBhcmUgdW5mb3JnaXZhYmxlLiBZb3UgYXJlIG5vIGxvbmdlciBhIGxvdmVyIG9mIG1pbmUgc28gc3RvcCBhc2tpbmcgdG8gYmUgZnJpZW5kcy4=
