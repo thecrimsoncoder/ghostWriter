@@ -16,6 +16,9 @@ def main():
         importAPIKey()
         main()
     elif(int(option) == 4):
+        selectActiveServer()
+        main()
+    elif(int(option) == 5):
         print("Q2FycGUgRGllbSEgLVRoZUNyaW1zb25Db2Rlcg==")
         sys.exit(0)
     else:
@@ -119,7 +122,26 @@ def decodeMessage(encodedMessage):
     print("\n==============================================================================================\n")
     print("Decoded Message: " + clearText)
     print("\n==============================================================================================\n")
+def selectActiveServer():
+    option_number = 1
+    print("++++++++++++++++++++++++++++++++++++++++")
+    print("+           API Server List            +")
+    print("++++++++++++++++++++++++++++++++++++++++")
+    try:
+        with open("ghostWriterAPIDatabase.json", "r") as api_database:
+            database = json.loads(api_database.read())
+            option_list = database["api_database"]
+            for host in option_list:
+                print(str(option_number)+". " + str(list(dict(host).keys())[0]))
+                print(host["active"])
+                option_number += 1
+            option  = int(input("Enter the number of the Server you wish to activate for encoding/decoding"))
 
+            # Cycle through and set all servers to false
+            # Set line item to true
+    except Exception as e:
+        print(e)
+        return False
 def importAPIKey():
     api_key_input = str(input("Paste API Key Here: "))
     api_key_input = json.loads(api_key_input)
@@ -164,7 +186,8 @@ def menu():
     print("+  1. Create a new message             +")
     print("+  2. Decode message                   +")
     print("+  3. Import API Key                   +")
-    print("+  4. Quit because you are a quitter!  +")
+    print("+  4. Select Active Server             +")
+    print("+  5. Quit because you are a quitter!  +")
     print("++++++++++++++++++++++++++++++++++++++++")
 
     return int(input("Just tell me what you want, what you really really want!: "))
