@@ -122,6 +122,7 @@ def decodeMessage(encodedMessage):
     print("\n==============================================================================================\n")
     print("Decoded Message: " + clearText)
     print("\n==============================================================================================\n")
+
 def selectActiveServer():
     option_number = 1
     print("++++++++++++++++++++++++++++++++++++++++")
@@ -133,15 +134,27 @@ def selectActiveServer():
             option_list = database["api_database"]
             for host in option_list:
                 print(str(option_number)+". " + str(list(dict(host).keys())[0]))
-                print(host["active"])
                 option_number += 1
-            option  = int(input("Enter the number of the Server you wish to activate for encoding/decoding"))
+            option  = int(input("Enter the number of the Server you wish to activate for encoding/decoding: "))
 
             # Cycle through and set all servers to false
+            for host in option_list:
+                host[str(list(dict(host).keys())[0])]["active"] = False
+
             # Set line item to true
+            option_list[int(option) - 1][str(list(dict(option_list[int(option) - 1]).keys())[0])]["active"] = True
+
+            # Write changes to api_database
+            with open("ghostWriterAPIDatabase.json", "w") as api_database:
+                api_update = {
+                                "api_database" : option_list
+                             }
+                json.dump(api_update,api_database, indent=4, separators=(',', ' : '))
+
     except Exception as e:
         print(e)
         return False
+
 def importAPIKey():
     api_key_input = str(input("Paste API Key Here: "))
     api_key_input = json.loads(api_key_input)
