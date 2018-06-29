@@ -31,9 +31,9 @@ def promptInput():
     return message
 
 def encodeMessage(cleartext):
-
+    HOST, PORT, API_KEY = set_server_variables()
     ROTORS = list()
-    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr"
+    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/"
     rotor_setting = requests.get(request)
     rotor_setting_json = rotor_setting.json()
     cipher_text = ""
@@ -73,8 +73,34 @@ def encodeMessage(cleartext):
     return_list.append(cipher_text_hash)
 
     return return_list
+def set_server_variables():
+    HOST = ""
+    PORT = ""
+    API_KEY = ""
+    try:
+        with open("ghostWriterAPIDatabase.json", "r") as api_database:
+            database = json.loads(api_database.read())
+            database = database["api_database"]
+
+            for host in database:
+                if host[str(list(dict(host.keys())[0]))]["active"] == True:
+
+                    print(host)
+                    # HOST = str(list(dict(host).keys())[0])
+                    # PORT = host[str(list(dict(host.keys())[0]))]["port"]
+                    # API_KEY = host[str(list(dict(host.keys())[0]))]["api_key"]
+
+        # print(HOST)
+        # print(PORT)
+        # print(API_KEY)
+
+        return HOST,PORT,API_KEY
+    except Exception as e:
+        print(e)
+        return False
 
 def contact_server(arg_list):
+    HOST, PORT, API_KEY = set_server_variables()
     rotor_setting = ""
     rotor_setting_json = arg_list[0]
     cipher_text_hash = arg_list[1]
@@ -91,6 +117,7 @@ def contact_server(arg_list):
     requests.post(request)
 
 def decodeMessage(encodedMessage):
+    HOST, PORT, API_KEY = set_server_variables()
     clearText = ""
     rotor0Itererator = 0
     rotor1Itererator = 0
@@ -139,7 +166,7 @@ def selectActiveServer():
 
             # Cycle through and set all servers to false
             for host in option_list:
-                host[str(list(dict(host).keys())[0])]["active"] = False
+                host[str(list(dict(host).keys()))]["active"] = False
 
             # Set line item to true
             option_list[int(option) - 1][str(list(dict(option_list[int(option) - 1]).keys())[0])]["active"] = True
@@ -205,5 +232,6 @@ def menu():
 
     return int(input("Just tell me what you want, what you really really want!: "))
 
+set_server_variables()
 programTitle()
 main()
