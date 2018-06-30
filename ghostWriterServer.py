@@ -22,7 +22,7 @@ def put_otr(api_key,rotor_setting,message_hash):
         try:
             with open("ghostWriterServerMessageDatabase.json", "r") as json_database:
                 database = json.load(json_database)
-            database.update(key_value)
+                database["message_database"].append(key_value)
             with open("ghostWriterServerMessageDatabase.json", "w") as json_database:
                 json.dump(database,json_database, indent=4, separators=(',', ' : '))
             response = {"Status": "Message Successfully Generated"}
@@ -149,8 +149,6 @@ def server_menu():
 
 if __name__ == "__main__":
     HOST, PORT  = import_settings()
-    # TESTING ONLY
-    print(auth_api_key("bd998e1454f5cd09f70de9f2019788c423423"))
     server_title()
     server_menu = Thread(target=server_menu())
     server_menu.start()
