@@ -20,6 +20,13 @@
                 "api_key" : "b0c1ce80521ba479da6690ab16015ecd",
                 "active" : true
             }
+        },
+        {
+            "localhost" : {
+                "port" : 4105,
+                "api_key" : "e98ff50bb7e65e5c8a57f2a1051be439",
+                "active" : false
+            }
         }
     ]
 }

@@ -33,7 +33,7 @@ def promptInput():
 def encodeMessage(cleartext):
     HOST, PORT, API_KEY = set_server_variables()
     ROTORS = list()
-    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/"
+    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + API_KEY
     rotor_setting = requests.get(request)
     rotor_setting_json = rotor_setting.json()
     cipher_text = ""
@@ -74,27 +74,25 @@ def encodeMessage(cleartext):
 
     return return_list
 def set_server_variables():
-    HOST = ""
-    PORT = ""
-    API_KEY = ""
+
     try:
+        HOST = ""
+        PORT = ""
+        API_KEY = ""
+
         with open("ghostWriterAPIDatabase.json", "r") as api_database:
             database = json.loads(api_database.read())
             database = database["api_database"]
 
             for host in database:
-                if host[str(list(dict(host.keys())[0]))]["active"] == True:
+                if host[str(list(dict(host).keys())[0])]["active"] == True:
 
-                    print(host)
-                    # HOST = str(list(dict(host).keys())[0])
-                    # PORT = host[str(list(dict(host.keys())[0]))]["port"]
-                    # API_KEY = host[str(list(dict(host.keys())[0]))]["api_key"]
+                    HOST = str(list(dict(host).keys())[0])
+                    PORT = host[str(list(dict(host).keys())[0])]["port"]
+                    API_KEY = host[str(list(dict(host).keys())[0])]["api_key"]
 
-        # print(HOST)
-        # print(PORT)
-        # print(API_KEY)
+                    return HOST,PORT,API_KEY
 
-        return HOST,PORT,API_KEY
     except Exception as e:
         print(e)
         return False
@@ -113,7 +111,7 @@ def contact_server(arg_list):
     del rotor_setting_list[len(rotor_setting_list)-1]
     rotor_setting_string = ''.join(rotor_setting_list)
 
-    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + rotor_setting_string + "/" + cipher_text_hash
+    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + API_KEY + "/" + rotor_setting_string + "/" + cipher_text_hash
     requests.post(request)
 
 def decodeMessage(encodedMessage):
@@ -122,7 +120,7 @@ def decodeMessage(encodedMessage):
     rotor0Itererator = 0
     rotor1Itererator = 0
     ROTORS = list()
-    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + hashlib.md5(str(encodedMessage).encode('utf-8')).hexdigest()
+    request = "http://" + str(HOST) + ":" + str(PORT) + "/OTR/api/v1.0/otr/" + API_KEY + "/" + hashlib.md5(str(encodedMessage).encode('utf-8')).hexdigest()
     rotor_setting = requests.get(request)
     rotor_setting_json = rotor_setting.json()
     ROTOR_COUNT = 3
@@ -176,6 +174,7 @@ def selectActiveServer():
                 api_update = {
                                 "api_database" : option_list
                              }
+
                 json.dump(api_update,api_database, indent=4, separators=(',', ' : '))
 
     except Exception as e:
@@ -232,6 +231,5 @@ def menu():
 
     return int(input("Just tell me what you want, what you really really want!: "))
 
-set_server_variables()
 programTitle()
 main()
