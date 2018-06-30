@@ -53,13 +53,14 @@ def auth_otr(api_key,message_hash):
 
 def auth_api_key(api_key):
     try:
-        with open("ghostWriterServerAPIDatabase.json", "r") as json_api_database:
-            database = json.loads(json_api_database.read())
-            for database_api_key in database:
-                if database_api_key[api_key] == True:
+        with open("ghostWriterServerAPIDatabase.json","r") as api_database:
+            database = json.loads(api_database.read())
+            database = database["api_database"]
+
+            for key in database:
+                if dict(key).get(api_key) == True:
                     return True
-                else:
-                    return False
+
     except Exception as e:
         print(e)
         return False
@@ -148,6 +149,8 @@ def server_menu():
 
 if __name__ == "__main__":
     HOST, PORT  = import_settings()
+    # TESTING ONLY
+    print(auth_api_key("bd998e1454f5cd09f70de9f2019788c423423"))
     server_title()
     server_menu = Thread(target=server_menu())
     server_menu.start()
