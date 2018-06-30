@@ -162,9 +162,11 @@ def selectActiveServer():
                 option_number += 1
             option  = int(input("Enter the number of the Server you wish to activate for encoding/decoding: "))
 
+
             # Cycle through and set all servers to false
             for host in option_list:
-                host[str(list(dict(host).keys()))]["active"] = False
+                host[str(list(dict(host).keys())[0])]["active"] = False
+
 
             # Set line item to true
             option_list[int(option) - 1][str(list(dict(option_list[int(option) - 1]).keys())[0])]["active"] = True
