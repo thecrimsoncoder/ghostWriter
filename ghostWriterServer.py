@@ -18,7 +18,7 @@ def get_otr(api_key):
 @app.route('/OTR/api/v1.0/otr/<string:api_key>/<string:rotor_setting>/<string:message_hash>',methods=['POST'])
 def put_otr(api_key,rotor_setting,message_hash):
     if auth_api_key(api_key) == True:
-        key_value = {rotor_setting : message_hash}
+        key_value = {message_hash : rotor_setting}
         try:
             with open("ghostWriterServerMessageDatabase.json", "r") as json_database:
                 database = json.load(json_database)
@@ -41,8 +41,12 @@ def auth_otr(api_key,message_hash):
         try:
             with open("ghostWriterServerMessageDatabase.json", "r") as json_database:
                 database = json.load(json_database)
-            rotor_setting = parseRotorSetting(list(database.keys())[list(database.values()).index(str(message_hash))])
-            return json.dumps(rotor_setting)
+                database = database["message_database"]
+                for message in database:
+                    if str(list(dict(message).keys())[0]) == str(message_hash):
+                        rotor_setting = dict(message).get(str(message_hash))
+                        rotor_setting = parseRotorSetting(rotor_setting)
+                        return json.dumps(rotor_setting)
         except Exception as e:
             print(e)
             response = {"Status": "Database Error"}
